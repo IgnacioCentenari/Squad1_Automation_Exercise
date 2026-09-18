@@ -1,0 +1,69 @@
+**1. Registro de Usuarios (/login)**
+
+* **TC-01:** Registro exitoso con datos válidos y verificación de campos obligatorios
+* **TC-02:** Validación de e-mail sin `@` ("user_sin_arroba")
+* **TC-03:** Validación de e-mail incompleto tras `@` ("user@dominio")
+* **TC-04:** Validación de e-mail sin texto previo a `@` ("@prueba.com")
+* **TC-05:** Intentar registrar un usuario con un e-mail previamente registrado
+
+---
+
+**2. Autenticación y Gestión de Sesión**
+
+* **TC-06:** Inicio de sesión con usuario inexistente
+* **TC-07:** Inicio de sesión con contraseña incorrecta
+* **TC-08:** Inicio de sesión con email y contraseña erróneos
+* **TC-09:** Inicio de sesión con credenciales válidas
+* **TC-10:** Intento de login dejando el campo email vacío
+* **TC-11:** Intento de login dejando el campo password vacío
+* **TC-12:** Cierre de sesión exitoso
+* **TC-13:** Verificación de destrucción de sesión tras el logout
+
+---
+
+**3. Catálogo, Búsqueda y Filtros**
+
+* **TC-14:** Visualización correcta de la información en el catálogo de productos
+* **TC-15:** Búsqueda exitosa de producto coincidencia exacta ("Blue Top")
+* **TC-16:** Búsqueda exitosa de producto coincidencia parcial ("Top")
+* **TC-17:** Búsqueda exitosa de producto coincidencia parcial ("Jeans")
+* **TC-18:** Búsqueda sin distinción de mayúsculas ("BLUE TOP")
+* **TC-19:** Búsqueda sin distinción de minúsculas ("blue top")
+* **TC-20:** Búsqueda sin distinción de formato mixto ("BlUe ToP")
+* **TC-21:** Búsqueda de un producto que no existe en el catálogo
+* **TC-22:** Filtrar productos por categoría Women - Dress
+* **TC-23:** Filtrar productos por categoría Men - Tshirts
+* **TC-24:** Filtrar productos por categoría Kids - Tops
+* **TC-25:** Filtrar productos por marca Polo
+* **TC-26:** Filtrar productos por marca H&M
+* **TC-27:** Filtrar productos por marca Madame
+
+---
+
+**4. Carrito de Compras (/view_cart)**
+
+* **TC-28:** Agregar un solo producto al carrito y verificar subtotal
+* **TC-29:** Agregar múltiples productos con diferentes cantidades y verificar la suma total
+* **TC-30:** Eliminar un producto del carrito, verificar la actualización del total y estado vacío
+* **TC-31:** Verificación de la persistencia del carrito al navegar a otras secciones
+
+---
+
+**5. Proceso de Checkout y Pago (/checkout & /payment)**
+
+* **TC-32:** Proceso de checkout y pago con tarjeta de crédito exitoso
+* **TC-33:** Validación de campo obligatorio omitiendo "NombreEnTarjeta"
+* **TC-34:** Validación de campo obligatorio omitiendo "NumeroTarjeta"
+* **TC-35:** Validación de campo obligatorio omitiendo "CVC"
+* **TC-36:** Validación de campo obligatorio omitiendo "MesExpiracion"
+* **TC-37:** Validación de campo obligatorio omitiendo "AnioExpiracion"
+* **TC-38:** Intentar realizar checkout sin productos en el carrito
+
+---
+
+**6. Formulario de Contacto (/contact_us)**
+
+* **TC-39:** Envío exitoso del formulario de contacto y retorno al inicio
+* **TC-40:** Intentar enviar el formulario con formato de email "user@"
+* **TC-41:** Intentar enviar el formulario con formato de email "@prueba"
+* **TC-42:** Intentar enviar el formulario con el campo email vacío
