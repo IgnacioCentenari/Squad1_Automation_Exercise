@@ -1,29 +1,15 @@
 package steps;
 
-import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
 
 public class CarritoSteps {
 
-    // Instancias de Page Objects (ej. CartPage cartPage = new CartPage();)
+    // private CartPage cartPage = new CartPage();
 
-    @Dado("que el usuario navega a la página {string}")
-    @Dado("el usuario navega a la página {string}")
-    @Cuando("el usuario navega a la página {string}")
-    public void navegarAPagina(String ruta) {
-        // driver.get(baseUrl + ruta);
-    }
-
-    @Cuando("selecciona la marca {string}")
-    public void seleccionarMarca(String marca) {
-        // catalogPage.seleccionarMarca(marca);
-    }
-
-    @Dado("que agrega {string} unidades del producto {string} al carrito")
     @Cuando("agrega {string} unidades del producto {string} al carrito")
     public void agregarProductoAlCarrito(String cantidad, String nombreProducto) {
-        // catalogPage.agregarAlCarrito(nombreProducto, Integer.parseInt(cantidad));
+        // cartPage.agregarAlCarrito(nombreProducto, Integer.parseInt(cantidad));
     }
 
     @Cuando("elimina el producto {string} del carrito")
@@ -46,10 +32,5 @@ public class CarritoSteps {
         // double subtotalCalculado = cartPage.calcularSubtotalAcumulado();
         // double totalGeneral = cartPage.obtenerTotalGeneral();
         // Assertions.assertEquals(subtotalCalculado, totalGeneral, 0.01);
-    }
-
-    @Entonces("el sistema debe mostrar el mensaje {string}")
-    public void verificarMensajeSistema(String mensajeEsperado) {
-        // Assertions.assertEquals(mensajeEsperado, cartPage.obtenerMensajeEstado());
     }
 }

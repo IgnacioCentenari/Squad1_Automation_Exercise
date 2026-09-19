@@ -1,49 +1,27 @@
 package steps;
 
-import io.cucumber.java.es.Dado;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.es.Cuando;
-import io.cucumber.java.es.Entonces;
+import java.util.Map;
 
 public class ContactoSteps {
 
-    // Instancias de Page Objects (ej. ContactPage contactPage = new ContactPage();)
+    // private ContactPage contactPage = new ContactPage();
 
-    @Dado("que el usuario navega a la página {string}")
-    @Dado("el usuario navega a la página {string}")
-    @Cuando("el usuario navega a la página {string}")
-    public void navegarAPagina(String ruta) {
-        // driver.get(baseUrl + ruta);
-    }
+    @Cuando("completa el formulario de contacto con los siguientes datos:")
+    public void completaElFormularioDeContacto(DataTable dataTable) {
+        Map<String, String> datosContacto = dataTable.asMap(String.class, String.class);
 
-    @Dado("ingresa {string} en el campo {string}")
-    @Cuando("ingresa {string} en el campo {string}")
-    public void ingresarTextoEnCampo(String texto, String nombreCampo) {
-        // contactPage.completarCampo(nombreCampo, texto);
-    }
+        String nombre  = datosContacto.getOrDefault("Name", "");
+        String email   = datosContacto.getOrDefault("Email", "");
+        String asunto  = datosContacto.getOrDefault("Subject", "");
+        String mensaje = datosContacto.getOrDefault("Message", "");
 
-    @Dado("hace clic en el botón {string}")
-    @Cuando("hace clic en el botón {string}")
-    public void hacerClicEnBoton(String nombreBoton) {
-        // contactPage.hacerClicEnBoton(nombreBoton);
+        // contactPage.completarFormulario(nombre, email, asunto, mensaje);
     }
 
     @Cuando("acepta la alerta emergente del navegador")
     public void aceptarAlertaEmergente() {
         // contactPage.aceptarAlertaJS();
-    }
-
-    @Entonces("el sistema debe mostrar el mensaje {string}")
-    public void verificarMensajeSistema(String mensajeEsperado) {
-        // Assertions.assertTrue(contactPage.obtenerMensajeÉxitoOMensajeHtml5().contains(mensajeEsperado));
-    }
-
-    @Entonces("el sistema debe navegar a la página {string}")
-    public void verificarNavegacionAPagina(String rutaEsperada) {
-        // Assertions.assertTrue(driver.getCurrentUrl().endsWith(rutaEsperada));
-    }
-
-    @Entonces("el sistema debe solicitar completar el campo obligatorio {string}")
-    public void verificarCampoObligatorio(String nombreCampo) {
-        // Assertions.assertTrue(contactPage.esCampoRequeridoValido(nombreCampo));
     }
 }

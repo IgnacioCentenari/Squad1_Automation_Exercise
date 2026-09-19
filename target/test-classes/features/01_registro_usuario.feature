@@ -36,21 +36,21 @@ Característica: Registro de Usuarios
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "user_sin_arroba" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Incluye un símbolo "@" en la dirección de correo."
+    Entonces el sistema debe mostrar el mensaje "Incluye un símbolo @ en la dirección de correo."
 
   @TC-03 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail incompleto tras arroba
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "user@dominio" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Introduce un texto después del signo "@"."
+    Entonces el sistema debe mostrar el mensaje "Introduce un texto después del signo @."
 
   @TC-04 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail sin texto previo a arroba
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "@prueba.com" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Introduce un texto antes del signo "@"."
+    Entonces el sistema debe mostrar el mensaje "Introduce un texto antes del signo @."
 
   @TC-05 @Registro @Negativo @UsuarioExistente
   Escenario: Intentar registrar un usuario con un e-mail previamente registrado

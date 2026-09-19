@@ -24,14 +24,14 @@ Característica: Gestión del Carrito de Compras
 
   @TC-30 @Carrito @Modificacion @CarritoVacio
   Escenario: Eliminar un producto del carrito, verificar la actualización del total y estado vacío
-    Dado que agrega "1" unidades del producto "Blue Top" al carrito
+    Cuando agrega "1" unidades del producto "Blue Top" al carrito
     Y el usuario navega a la página "/view_cart"
-    Cuando elimina el producto "Blue Top" del carrito
+    Y elimina el producto "Blue Top" del carrito
     Entonces el sistema debe mostrar el mensaje "Cart is empty!"
 
   @TC-31 @Carrito @Persistencia
   Escenario: Verificación de la persistencia del carrito al navegar a otras secciones
-    Dado que agrega "1" unidades del producto "Men Tshirt" al carrito
-    Cuando el usuario navega a la página "/contact_us"
+    Cuando agrega "1" unidades del producto "Men Tshirt" al carrito
+    Y el usuario navega a la página "/contact_us"
     Y el usuario navega a la página "/view_cart"
     Entonces el carrito debe contener el producto "Men Tshirt"

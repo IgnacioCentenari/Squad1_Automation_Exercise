@@ -1,31 +1,13 @@
 package steps;
 
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
-
 import java.util.List;
 
 public class CatalogoSteps {
 
-    // Instancia de tus Page Objects (ej. CatalogPage catalogPage = new CatalogPage();)
-
-    @Dado("que el usuario navega a la página {string}")
-    @Cuando("el usuario navega a la página {string}")
-    public void navegarAPagina(String ruta) {
-        // driver.get(baseUrl + ruta);
-    }
-
-    @Cuando("ingresa {string} en el campo {string}")
-    public void ingresarTextoEnCampo(String texto, String nombreCampo) {
-        // catalogPage.completarCampo(nombreCampo, texto);
-    }
-
-    @Cuando("hace clic en el botón {string}")
-    public void hacerClicEnBoton(String nombreBoton) {
-        // catalogPage.hacerClicEn(nombreBoton);
-    }
+    // private CatalogPage catalogPage = new CatalogPage();
 
     @Entonces("debe visualizarse el listado de productos")
     public void verificarListadoProductosPresente() {
@@ -56,10 +38,5 @@ public class CatalogoSteps {
     @Cuando("selecciona la marca {string}")
     public void seleccionarMarca(String marca) {
         // catalogPage.seleccionarMarca(marca);
-    }
-
-    @Entonces("el sistema debe mostrar el mensaje {string}")
-    public void verificarMensajeSistema(String mensajeEsperado) {
-        // Assertions.assertEquals(mensajeEsperado, catalogPage.obtenerTituloSeccion());
     }
 }

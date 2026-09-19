@@ -51,17 +51,17 @@ Característica: Autenticación y Gestión de Sesión
 
   @TC-12 @Autenticacion @Logout
   Escenario: Cierre de sesión exitoso
-    Dado que ingresa "user@prueba.com" en el campo "Email Address Login"
+    Cuando ingresa "user@prueba.com" en el campo "Email Address Login"
     Y ingresa "userQA" en el campo "Password"
     Y hace clic en el botón "Login"
-    Cuando hace clic en el botón "Logout"
+    Y hace clic en el botón "Logout"
     Entonces el sistema debe navegar a la página "/login"
 
   @TC-13 @Autenticacion @Logout @Persistencia
   Escenario: Verificación de destrucción de sesión tras el logout
-    Dado que ingresa "user@prueba.com" en el campo "Email Address Login"
+    Cuando ingresa "user@prueba.com" en el campo "Email Address Login"
     Y ingresa "userQA" en el campo "Password"
     Y hace clic en el botón "Login"
     Y hace clic en el botón "Logout"
-    Cuando el usuario navega a la página "/checkout"
+    Y el usuario navega a la página "/checkout"
     Entonces el sistema debe navegar a la página "/login"

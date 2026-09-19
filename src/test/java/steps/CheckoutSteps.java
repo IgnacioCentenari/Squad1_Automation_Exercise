@@ -1,44 +1,23 @@
 package steps;
 
-import io.cucumber.java.es.Dado;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.es.Cuando;
-import io.cucumber.java.es.Entonces;
+import java.util.Map;
 
 public class CheckoutSteps {
 
-    // Instancias de Page Objects (ej. CheckoutPage checkoutPage = new CheckoutPage();)
+    // private PaymentPage paymentPage = new PaymentPage();
 
-    @Dado("que el usuario navega a la página {string}")
-    @Dado("el usuario navega a la página {string}")
-    @Cuando("el usuario navega a la página {string}")
-    public void navegarAPagina(String ruta) {
-        // driver.get(baseUrl + ruta);
-    }
+    @Cuando("completa los datos de la tarjeta con los siguientes valores:")
+    public void completaLosDatosDeLaTarjeta(DataTable dataTable) {
+        Map<String, String> datosTarjeta = dataTable.asMap(String.class, String.class);
 
-    @Dado("ingresa {string} en el campo {string}")
-    @Cuando("ingresa {string} en el campo {string}")
-    public void ingresarTextoEnCampo(String texto, String nombreCampo) {
-        // checkoutPage.completarCampo(nombreCampo, texto);
-    }
+        String nombre = datosTarjeta.getOrDefault("NombreEnTarjeta", "");
+        String numero = datosTarjeta.getOrDefault("NumeroTarjeta", "");
+        String cvc    = datosTarjeta.getOrDefault("CVC", "");
+        String mes    = datosTarjeta.getOrDefault("MesExpiracion", "");
+        String anio   = datosTarjeta.getOrDefault("AnioExpiracion", "");
 
-    @Dado("hace clic en el botón {string}")
-    @Cuando("hace clic en el botón {string}")
-    public void hacerClicEnBoton(String nombreBoton) {
-        // checkoutPage.hacerClicEnBoton(nombreBoton);
-    }
-
-    @Dado("que agrega {string} unidades del producto {string} al carrito")
-    public void agregarProductoAlCarrito(String cantidad, String nombreProducto) {
-        // catalogPage.agregarAlCarrito(nombreProducto, Integer.parseInt(cantidad));
-    }
-
-    @Entonces("el sistema debe mostrar el mensaje {string}")
-    public void verificarMensajeSistema(String mensajeEsperado) {
-        // Assertions.assertTrue(checkoutPage.obtenerMensajeConfirmacion().contains(mensajeEsperado));
-    }
-
-    @Entonces("el sistema debe solicitar completar el campo obligatorio {string}")
-    public void verificarCampoObligatorio(String nombreCampo) {
-        // Assertions.assertTrue(checkoutPage.esCampoRequeridoActivado(nombreCampo));
+        // paymentPage.completarFormularioPago(nombre, numero, cvc, mes, anio);
     }
 }
