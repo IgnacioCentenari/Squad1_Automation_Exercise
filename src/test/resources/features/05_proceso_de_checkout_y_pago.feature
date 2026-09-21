@@ -5,8 +5,8 @@ Característica: Proceso de Checkout y Pago
   Para finalizar la orden y obtener la factura
 
   Antecedentes:
-    Dado que el usuario navega a la página "/login"
-    Cuando ingresa "user@prueba.com" en el campo "Email Address Login"
+    Cuando el usuario navega a la página "/login"
+    Y ingresa "user@prueba.com" en el campo "Email Address Login"
     Y ingresa "userQA" en el campo "Password"
     Y hace clic en el botón "Login"
 

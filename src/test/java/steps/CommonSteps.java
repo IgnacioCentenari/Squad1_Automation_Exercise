@@ -1,6 +1,5 @@
 package steps;
 
-import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
 
@@ -8,7 +7,7 @@ public class CommonSteps {
 
     // private CommonPage commonPage = new CommonPage();
 
-    @Dado("que el usuario navega a la página {string}")
+
     @Cuando("el usuario navega a la página {string}")
     public void navegarAPagina(String ruta) {
         // commonPage.navegarA(ruta);
