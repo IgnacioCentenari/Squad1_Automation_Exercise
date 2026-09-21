@@ -1,79 +1,70 @@
-//package pages;
-//
-//import org.openqa.selenium.By;
-//import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.WebElement;
-//import org.openqa.selenium.support.FindBy;
-//import org.openqa.selenium.support.PageFactory;
-//import org.openqa.selenium.support.ui.ExpectedConditions;
-//
-//import java.util.List;
-//
-//public class CarritoPage extends BasePage {
-//
-//    // --- ELEMENTOS ESTÁTICOS ---
-//    @FindBy(css = "#cart_info_table tbody tr")
-//    private List<WebElement> filasProductos;
-//
-//    public CarritoPage(WebDriver driver) {
-//        super(driver);
-//        PageFactory.initElements(driver, this);
-//    }
-//
-//    /**
-//     * Verifica si un producto existe dentro de la tabla del carrito.
-//     */
-//    public boolean existeProductoEnCarrito(String nombreProducto) {
-//        String xpathProducto = String.format(
-//                "//table[@id='cart_info_table']//td[contains(@class,'cart_description')]//a[text()='%s']",
-//                nombreProducto
-//        );
-//        return !driver.findElements(By.xpath(xpathProducto)).isEmpty();
-//    }
-//
-//    /**
-//     * Retorna la cantidad de ítems/filas distintas agregadas.
-//     */
-//    public int obtenerCantidadFilasProductos() {
-//        return filasProductos.size();
-//    }
-//
-//    /**
-//     * Elimina una fila del carrito haciendo clic en el botón con la 'X'.
-//     */
-//    public void eliminarProducto(String nombreProducto) {
-//        String xpathBotonEliminar = String.format(
-//                "//tr[.//td[contains(@class,'cart_description')]//a[text()='%s']]//a[@class='cart_quantity_delete']",
-//                nombreProducto
-//        );
-//
-//        WebElement botonEliminar = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathBotonEliminar)));
-//        botonEliminar.click();
-//
-//        // Espera explícita a que el elemento desaparezca de la tabla
-//        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpathBotonEliminar)));
-//    }
-//
-//    /**
-//     * Suma los valores de la columna total de cada fila para obtener el subtotal calculado.
-//     */
-//    public double calcularSubtotalAcumulado() {
-//        double subtotalAcumulado = 0.0;
-//        List<WebElement> preciosTotales = driver.findElements(By.cssSelector("p.cart_total_price"));
-//
-//        for (WebElement elementoPrecio : preciosTotales) {
-//            String textoPrecio = elementoPrecio.getText().replaceAll("[^0-9]", "");
-//            if (!textoPrecio.isEmpty()) {
-//                subtotalAcumulado += Double.parseDouble(textoPrecio);
-//            }
-//        }
-//        return subtotalAcumulado;
-//    }
-//
-//    /**
-//     * Retorna el monto total general del carrito.
-//     */
-//    public double obtenerTotalGeneral() {
-//        return calcularSubtotalAcumulado();
-//    }
-//}
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+public class ProductosPage extends BasePage {
+
+    // --- ELEMENTOS ESTÁTICOS ---
+    @FindBy(xpath = "//button[text()='Continue Shopping']")
+    private WebElement botonContinuarComprando;
+
+    public ProductosPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    /**
+     * Agrega N unidades de un producto directamente desde el catálogo flotante (overlay).
+     */
+    public void agregarProductoDesdeCatalogo(String nombreProducto, int cantidad) {
+        String xpathTarjetaProducto = String.format(
+                "//div[@class='single-products'][.//p[text()='%s']]",
+                nombreProducto
+        );
+
+        String xpathBotonAgregarAlCarrito = String.format(
+                "//div[@class='product-overlay'][.//p[text()='%s']]//a[contains(@class,'add-to-cart')]",
+                nombreProducto
+        );
+
+        for (int i = 0; i < cantidad; i++) {
+            // Hover sobre la tarjeta del producto
+            WebElement tarjetaProducto = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathTarjetaProducto)));
+            Actions acciones = new Actions(driver);
+            acciones.moveToElement(tarjetaProducto).perform();
+
+            // Clic en el botón del overlay
+            WebElement botonAgregar = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathBotonAgregarAlCarrito)));
+            botonAgregar.click();
+
+            // Cerrar el modal de confirmación
+            hacerClicEnContinuarComprando();
+        }
+    }
+
+    /**
+     * Navega a la vista de detalle del producto y devuelve una instancia de ProductoDetallePage.
+     */
+    public ProductoDetallePage irAlDetalleDelProducto(String nombreProducto) {
+        String xpathVerProducto = String.format(
+                "//div[@class='single-products'][.//p[text()='%s']]/following-sibling::div[@class='choose']//a",
+                nombreProducto
+        );
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathVerProducto))).click();
+        return new ProductoDetallePage(driver);
+    }
+
+    /**
+     * Cierra el modal de confirmación ("Added!").
+     */
+    public void hacerClicEnContinuarComprando() {
+        wait.until(ExpectedConditions.elementToBeClickable(botonContinuarComprando)).click();
+    }
+}
