@@ -12,6 +12,11 @@ public class CarritoSteps {
         // cartPage.agregarAlCarrito(nombreProducto, Integer.parseInt(cantidad));
     }
 
+    @Cuando("ingresa a los detalles del producto {string} y agrega {string} unidades")
+    public void agregarProductoDesdeDetalle(String nombreProducto, String cantidad) {
+        //deberia ingresa a review del producto y agegar la cantidad de elementos
+    }
+
     @Cuando("elimina el producto {string} del carrito")
     public void eliminarProductoDelCarrito(String nombreProducto) {
         // cartPage.eliminarProducto(nombreProducto);
