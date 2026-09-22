@@ -3,30 +3,22 @@ package hooks;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import utils.DriverManager;
 
 public class Hooks {
 
-    private static WebDriver driver;
-
     @Before
     public void setUp() {
-        if (driver == null) {
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
-        }
+        DriverManager.getDriver();
     }
 
     @After
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-            driver = null; // Limpiamos la referencia para el siguiente escenario
-        }
+        DriverManager.quitDriver();
     }
 
-    // Getter estático para acceder al driver desde los Steps o Pages
+    // Método estático para exponer el driver que pide CarritoSteps
     public static WebDriver getDriver() {
-        return driver;
+        return DriverManager.getDriver();
     }
 }

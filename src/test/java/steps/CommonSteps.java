@@ -1,40 +1,35 @@
 package steps;
 
+import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
+import org.junit.jupiter.api.Assertions;
+import pages.CommonPage;
+import utils.DriverManager;
 
 public class CommonSteps {
 
-    // private CommonPage commonPage = new CommonPage();
-
+    private CommonPage commonPage = new CommonPage(DriverManager.getDriver());
 
     @Cuando("el usuario navega a la página {string}")
-    public void navegarAPagina(String ruta) {
-        // commonPage.navegarA(ruta);
+    public void queMeEncuentroEnLaPagina(String ruta) {
+        commonPage.navegarARutaRelativa(ruta);
     }
 
-    @Cuando("ingresa {string} en el campo {string}")
-    public void ingresarTextoEnCampo(String valor, String nombreCampo) {
-        // commonPage.ingresarTexto(nombreCampo, valor);
+    @Cuando("ingreso {string} en el campo {string}")
+    public void ingresoTextoEnElCampo(String texto, String nombreCampo) {
+        commonPage.ingresarTextoEnCampo(nombreCampo, texto);
     }
 
-    @Cuando("hace clic en el botón {string}")
-    public void hacerClicEnBoton(String nombreBoton) {
-        // commonPage.hacerClicEnBoton(nombreBoton);
+    @Cuando("hago clic en el boton {string}")
+    public void hagoClicEnElBoton(String textoBoton) {
+        commonPage.hacerClicEnBotonPorTexto(textoBoton);
     }
 
-    @Entonces("el sistema debe mostrar el mensaje {string}")
-    public void verificarMensaje(String mensajeEsperado) {
-        // Assertions.assertTrue(commonPage.obtenerMensajeVisible().contains(mensajeEsperado));
-    }
-
-    @Entonces("el sistema debe navegar a la página {string}")
-    public void verificarRedireccion(String rutaEsperada) {
-        // Assertions.assertTrue(commonPage.obtenerUrlActual().endsWith(rutaEsperada));
-    }
-
-    @Entonces("el sistema debe solicitar completar el campo obligatorio {string}")
-    public void verificarCampoObligatorio(String nombreCampo) {
-        // Assertions.assertTrue(commonPage.esCampoRequeridoValido(nombreCampo));
+    @Entonces("deberia ver que la URL contiene {string}")
+    public void deberiaVerQueLaUrlContiene(String urlEsperada) {
+        String urlActual = commonPage.obtenerUrlActual();
+        Assertions.assertTrue(urlActual.contains(urlEsperada),
+                "La URL actual [" + urlActual + "] no contiene la subcadena esperada [" + urlEsperada + "]");
     }
 }
