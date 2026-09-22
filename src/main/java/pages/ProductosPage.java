@@ -1,70 +1,73 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class ProductosPage extends BasePage {
-
-    // --- ELEMENTOS ESTÁTICOS ---
-    @FindBy(xpath = "//button[text()='Continue Shopping']")
-    private WebElement botonContinuarComprando;
+public class ProductosPage extends CommonPage {
 
     public ProductosPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
     }
 
-    /**
-     * Agrega N unidades de un producto directamente desde el catálogo flotante (overlay).
-     */
     public void agregarProductoDesdeCatalogo(String nombreProducto, int cantidad) {
-        String xpathTarjetaProducto = String.format(
-                "//div[@class='single-products'][.//p[text()='%s']]",
+        String xpathTarjeta = String.format(
+                "//div[contains(@class,'single-products') and .//p[contains(normalize-space(),'%s')]]",
                 nombreProducto
         );
 
-        String xpathBotonAgregarAlCarrito = String.format(
-                "//div[@class='product-overlay'][.//p[text()='%s']]//a[contains(@class,'add-to-cart')]",
-                nombreProducto
+        WebElement tarjeta = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathTarjeta)));
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", tarjeta);
+
+        String xpathBotonAgregar = String.format(
+                "%s//div[contains(@class,'productinfo')]//a[contains(@class,'add-to-cart')]",
+                xpathTarjeta
         );
 
         for (int i = 0; i < cantidad; i++) {
-            // Hover sobre la tarjeta del producto
-            WebElement tarjetaProducto = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathTarjetaProducto)));
-            Actions acciones = new Actions(driver);
-            acciones.moveToElement(tarjetaProducto).perform();
-
-            // Clic en el botón del overlay
-            WebElement botonAgregar = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathBotonAgregarAlCarrito)));
-            botonAgregar.click();
-
-            // Cerrar el modal de confirmación
-            hacerClicEnContinuarComprando();
+            WebElement botonAgregar = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathBotonAgregar)));
+            hacerClick(botonAgregar);
+            cerrarModalSiEstaPresente();
         }
     }
 
-    /**
-     * Navega a la vista de detalle del producto y devuelve una instancia de ProductoDetallePage.
-     */
     public ProductoDetallePage irAlDetalleDelProducto(String nombreProducto) {
-        String xpathVerProducto = String.format(
-                "//div[@class='single-products'][.//p[text()='%s']]/following-sibling::div[@class='choose']//a",
+        // 1. Si no estamos en la vista de catálogo, navegamos primero a /products
+        if (!driver.getCurrentUrl().endsWith("/products")) {
+            navegarARutaRelativa("/products");
+        }
+
+        // 2. Buscamos la tarjeta del producto especificado
+        String xpathVerDetalle = String.format(
+                "//div[contains(@class,'product-image-wrapper') and .//p[contains(normalize-space(),'%s')]]//a[contains(@href,'/product_details/')]",
                 nombreProducto
         );
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathVerProducto))).click();
+        WebElement botonVerDetalle = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpathVerDetalle)));
+
+        // 3. Scroll y clic seguro
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", botonVerDetalle);
+
+        hacerClick(botonVerDetalle);
+
+        // 4. Esperamos a que la página de detalle termine de cargar
+        wait.until(ExpectedConditions.urlContains("/product_details/"));
+
         return new ProductoDetallePage(driver);
     }
 
-    /**
-     * Cierra el modal de confirmación ("Added!").
-     */
-    public void hacerClicEnContinuarComprando() {
-        wait.until(ExpectedConditions.elementToBeClickable(botonContinuarComprando)).click();
+    private void cerrarModalSiEstaPresente() {
+        try {
+            By locatorBotonContinuar = By.xpath("//button[contains(@class,'close-modal') or contains(text(),'Continue Shopping')]");
+            WebElement botonContinuar = wait.until(ExpectedConditions.elementToBeClickable(locatorBotonContinuar));
+            hacerClick(botonContinuar);
+        } catch (Exception e) {
+            // Si no aparece el modal, continúa
+        }
     }
 }

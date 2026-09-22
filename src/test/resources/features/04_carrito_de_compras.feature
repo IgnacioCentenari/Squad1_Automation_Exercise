@@ -5,7 +5,7 @@ Característica: Gestión del Carrito de Compras
   Para revisar montos y cantidades antes de comprar
 
   Antecedentes:
-    Dado que el usuario navega a la página "/products"
+    Cuando el usuario navega a la página "/products"
 
   @TC-28 @Carrito @Positivo
   Escenario: Agregar un solo producto al carrito y verificar subtotal
