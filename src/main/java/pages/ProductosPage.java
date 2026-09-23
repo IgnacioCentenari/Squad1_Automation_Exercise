@@ -140,10 +140,20 @@ public class ProductosPage extends BasePage {
     /**
      * Ingresa el texto en el buscador y hace clic en la lupa.
      */
-    public void buscarProducto(String texto) {
-        wait.until(ExpectedConditions.visibilityOf(inputBuscarProducto)).clear();
-        inputBuscarProducto.sendKeys(texto);
-        wait.until(ExpectedConditions.elementToBeClickable(botonBuscar)).click();
+//    public void buscarProducto(String texto) {
+//        wait.until(ExpectedConditions.visibilityOf(inputBuscarProducto)).clear();
+//        inputBuscarProducto.sendKeys(texto);
+//        wait.until(ExpectedConditions.elementToBeClickable(botonBuscar)).click();
+//    }
+
+
+    //Es necesario implementarlo de esta manera para evitar la interferencia con un anuncion pop up
+    public void hacerClickBotonBusqueda() {
+        org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+        // Hace scroll para asegurar que el elemento esté en la vista
+        js.executeScript("arguments[0].scrollIntoView(true);", botonBuscar);
+        // Fuerza el clic ignorando si un iframe o anuncio lo está tapando
+        js.executeScript("arguments[0].click();", botonBuscar);
     }
 
     // --- Validaciones de búsqueda ---
@@ -160,9 +170,12 @@ public class ProductosPage extends BasePage {
         String textoBusqueda = textoEsperado.toLowerCase();
 
         for (WebElement producto : nombresProductosVisibles) {
-            String nombreActual = producto.getText().toLowerCase();
-            if (!nombreActual.contains(textoBusqueda)) {
-                return false; // Si al menos uno no coincide, la validación falla
+            // Solo evaluamos los elementos que estén visibles en el DOM
+            if (producto.isDisplayed()) {
+                String nombreActual = producto.getText().toLowerCase();
+                if (!nombreActual.contains(textoBusqueda)) {
+                    return false;
+                }
             }
         }
         return true; // Todos coinciden
