@@ -5,7 +5,7 @@ Característica: Catálogo, Búsqueda y Filtros
   Para visualizar y filtrar productos
 
   Antecedentes:
-    Dado que el usuario navega a la página "/products"
+    Cuando el usuario navega a la página "/products"
 
   @TC-14 @Catalogo @Positivo
   Escenario: Visualización correcta de la información en el catálogo de productos
