@@ -61,4 +61,18 @@ public class CatalogoSteps {
     public void haceClicEnElBotonDeBusquedaDelCatalogo() {
         productosPage.hacerClickBotonBusqueda();
     }
+
+    @Entonces("el sistema debe mostrar el mensaje {string}")
+    public void elSistemaDebeMostrarElMensaje(String mensajeEsperado) {
+        String textoActual = productosPage.obtenerTextoTituloCategoria();
+
+        // Normalizamos: pasamos a minúsculas y reemplazamos cualquier espacio doble o múltiple por uno solo
+        String textoActualNormalizado = textoActual.toLowerCase().replaceAll("\\s+", " ");
+        String mensajeEsperadoNormalizado = mensajeEsperado.toLowerCase().replaceAll("\\s+", " ");
+
+        Assertions.assertTrue(
+                textoActualNormalizado.contains(mensajeEsperadoNormalizado),
+                "Se esperaba que el título contuviera '" + mensajeEsperado + "', pero se obtuvo '" + textoActual + "'"
+        );
+    }
 }
