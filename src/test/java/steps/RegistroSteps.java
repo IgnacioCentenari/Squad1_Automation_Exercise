@@ -104,7 +104,7 @@ public class RegistroSteps {
         loginPage.clicSignup();
     }
 
-    @Entonces("el sistema debe mostrar el mensaje {string}")
+    @Entonces("debe mostrar el mensaje {string}")
     public void el_sistema_debe_mostrar_el_mensaje(String mensajeEsperado) {
         // Los mensajes de validación de e-mail (TC-02/03/04) los muestra el propio
         // navegador (validación HTML5 nativa del input), no quedan en el HTML de la página.

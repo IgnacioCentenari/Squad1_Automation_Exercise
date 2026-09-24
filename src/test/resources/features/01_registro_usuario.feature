@@ -27,7 +27,7 @@ Característica: Registro de Usuarios
       | CodigoPostal   | 90210           |
       | Teléfono       | 1122334455      |
     Y hace clic en el botón "Create Account"
-    Entonces el sistema debe mostrar el mensaje "ACCOUNT CREATED!"
+    Entonces debe mostrar el mensaje "ACCOUNT CREATED!"
     Cuando hace clic en el botón "Continue"
     Entonces el sistema debe mostrar el mensaje "Logged in as user"
   @TC-02 @Registro @Negativo @ValidacionCampos
@@ -35,21 +35,21 @@ Característica: Registro de Usuarios
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "user_sin_arroba" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Incluye un signo \"@\" en la dirección de correo electrónico. La dirección \"user_sin_arroba\" no incluye el signo \"@\"."
+    Entonces debe mostrar el mensaje "Incluye un signo \"@\" en la dirección de correo electrónico. La dirección \"user_sin_arroba\" no incluye el signo \"@\"."
 
   @TC-03 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail incompleto tras arroba
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "user@" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Introduce texto detrás del signo \"@\". La dirección \"user@\" está incompleta."
+    Entonces debe mostrar el mensaje "Introduce texto detrás del signo \"@\". La dirección \"user@\" está incompleta."
 
   @TC-04 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail sin texto previo a arroba
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "@prueba.com" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Introduce texto seguido del signo \"@\". La dirección \"@prueba.com\" está incompleta."
+    Entonces debe mostrar el mensaje "Introduce texto seguido del signo \"@\". La dirección \"@prueba.com\" está incompleta."
 #  @TC-02 @Registro @Negativo @ValidacionCampos
 #  Escenario: Validación de e-mail sin arroba
 #    Cuando ingresa "user" en el campo "Name"
@@ -76,4 +76,4 @@ Característica: Registro de Usuarios
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "user@prueba.com" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Email Address already exist!"
+    Entonces debe mostrar el mensaje "Email Address already exist!"
