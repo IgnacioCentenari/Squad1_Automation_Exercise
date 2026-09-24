@@ -40,12 +40,52 @@ public class CommonPage extends BasePage {
         hacerClick(boton);
     }
 
-    public boolean esperarUrlQueContenga(String subcadenaUrl, int segundosEspera) {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(segundosEspera));
-            return wait.until(ExpectedConditions.urlContains(subcadenaUrl));
-        } catch (TimeoutException e) {
-            return false;
-        }
+public boolean esperarUrlQueContenga(String subcadenaUrl, int segundosEspera) {
+    try {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(segundosEspera));
+        return wait.until(ExpectedConditions.urlContains(subcadenaUrl));
+    } catch (TimeoutException e) {
+        return false;
     }
+}
+
+/**
+ * Verifica si un texto aparece en algún lugar del HTML actualmente renderizado
+ * en la página (útil para mensajes de confirmación/error que no tienen un
+ * localizador fijo, como "ACCOUNT CREATED!" o "Email Address already exist!").
+ */
+public boolean laPaginaContieneTexto(String texto) {
+    String fuente = normalizarTextoPagina(driver.getPageSource());
+    String buscado = normalizarTextoPagina(texto);
+    return fuente.contains(buscado);
+}
+
+public void manejarPosiblePublicidadIntersticial() {
+    try {
+        try {
+            new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(15))
+                    .until(d -> !d.getCurrentUrl().contains("google_vignette"));
+            return;
+        } catch (org.openqa.selenium.TimeoutException ignored) {
+            // No se autocerró: intentamos el plan B (navegar directo al home).
+        }
+        navegarARutaRelativa("/");
+    } catch (Exception e) {
+        // Best-effort total: si ni el plan B pudo ejecutarse (renderer bloqueado
+        // por el propio anuncio), no tumbamos el escenario acá. Dejamos que el
+        // assert siguiente falle con su propio mensaje claro, en vez de un
+        // stacktrace crudo de WebDriver en un punto que no es el que realmente
+        // se está verificando.
+    }
+}
+
+private String normalizarTextoPagina(String texto) {
+    return texto
+            .replaceAll("<[^>]+>", " ")   // colapsa cualquier tag HTML a un espacio
+            .replace('\u00A0', ' ')
+            .replaceAll("\\s+", " ")
+            .toLowerCase()
+            .trim();
+}
+
 }
