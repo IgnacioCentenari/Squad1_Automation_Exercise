@@ -19,8 +19,10 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 )
 @ConfigurationParameter(
         key = FILTER_TAGS_PROPERTY_NAME,
-        value = "@Carrito or @Autenticacion or @Registro" // <-- Agregás el tag de Registro acá
+        value = "@Pago or @Carrito or @Autenticacion or @Registro " // <-- Agregás el tag de Registro acá
+
 )
+// @Pago or @Carrito or @Autenticacion or @Registro
 @ConfigurationParameter(
         key = PLUGIN_PROPERTY_NAME,
         value = "pretty, " +

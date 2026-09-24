@@ -4,6 +4,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
 import org.junit.jupiter.api.Assertions;
+import pages.CheckoutPage;
 import pages.CommonPage;
 import pages.LoginPage;
 import pages.RegisterPage;
@@ -16,6 +17,7 @@ public class RegistroSteps {
     private final CommonPage commonPage = new CommonPage(DriverManager.getDriver());
     private final LoginPage loginPage = new LoginPage(DriverManager.getDriver());
     private final RegisterPage registerPage = new RegisterPage(DriverManager.getDriver());
+    private final CheckoutPage checkoutPage = new CheckoutPage(DriverManager.getDriver());
 
     // Recuerda el último email ingresado en el mini-formulario de signup, para saber
     // si el "Signup" que se acaba de clickear corresponde a la fixture de TC-05.
@@ -55,6 +57,10 @@ public class RegistroSteps {
             case "Continue" -> {
                 registerPage.clicContinue();
                 commonPage.manejarPosiblePublicidadIntersticial();
+            }
+            // Integración de casos provenientes de Checkout:
+            case "Login", "Proceed To Checkout", "Place Order", "Pay and Confirm Order" -> {
+                checkoutPage.hacerClicEnBoton(nombreBoton);
             }
             default -> commonPage.hacerClicEnBotonPorTexto(nombreBoton);
         }
