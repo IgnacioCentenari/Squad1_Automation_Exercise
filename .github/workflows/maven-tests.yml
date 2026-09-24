@@ -2,7 +2,7 @@ name: Automation Tests Pipeline
 
 on:
   push:
-    branches: [ "main", "rama_integracion" ]
+    branches: [ "main", "rama_integracion", "feature/**" ]
   pull_request:
     branches: [ "main", "rama_integracion" ]
 
