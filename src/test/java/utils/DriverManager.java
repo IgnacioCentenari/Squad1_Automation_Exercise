@@ -1,4 +1,5 @@
 package utils;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -23,20 +24,38 @@ public final class DriverManager {
         }
 
         String browser = System.getProperty("browser", "chrome").toLowerCase();
-        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+        // Detecta si viene la propiedad System o si está corriendo en GitHub Actions / CI
+        boolean isCI = System.getenv("CI") != null;
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false")) || isCI;
 
         switch (browser) {
             case "edge" -> {
                 EdgeOptions options = new EdgeOptions();
-                if (headless) options.addArguments("--headless=new");
-                options.addArguments("--start-maximized");
+                if (headless) {
+                    options.addArguments("--headless=new");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.addArguments("--window-size=1920,1080");
+                } else {
+                    options.addArguments("--start-maximized");
+                }
+                options.addArguments("--remote-allow-origins=*");
                 driver = new EdgeDriver(options);
             }
             case "chrome" -> {
                 ChromeOptions options = new ChromeOptions();
-                if (headless) options.addArguments("--headless=new");
-                options.addArguments("--start-maximized");
 
+                // Flags requeridos para Linux / GitHub Actions
+                if (headless) {
+                    options.addArguments("--headless=new");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.addArguments("--window-size=1920,1080");
+                } else {
+                    options.addArguments("--start-maximized");
+                }
+
+                // Preferencias de autocompletado y contraseñas
                 Map<String, Object> prefs = new HashMap<>();
                 prefs.put("autofill.profile_enabled", false);
                 prefs.put("autofill.address_enabled", false);
@@ -44,7 +63,10 @@ public final class DriverManager {
                 prefs.put("credentials_enable_service", false);
                 prefs.put("profile.password_manager_enabled", false);
                 options.setExperimentalOption("prefs", prefs);
+
                 options.addArguments("--disable-save-password-bubble");
+                options.addArguments("--disable-notifications");
+                options.addArguments("--remote-allow-origins=*");
 
                 driver = new ChromeDriver(options);
             }
@@ -52,34 +74,12 @@ public final class DriverManager {
         }
 
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
     public static WebDriver getDriver() {
         if (driver == null) {
-ChromeOptions options = new ChromeOptions();
-
-// Revisa si el código se está ejecutando en un entorno de CI (como GitHub Actions)
-boolean isCI = System.getenv("CI") != null;
-
-if (isCI) {
-    // Argumentos necesarios para entornos servidores / Linux headless (GitHub Actions)
-    options.addArguments("--headless=new");
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
-    options.addArguments("--window-size=1920,1080");
-} else {
-    // Configuración para ejecución local (con pantalla visible)
-    options.addArguments("--start-maximized");
-}
-
-options.addArguments("--disable-notifications");
-options.addArguments("--remote-allow-origins=*");
-
-driver = new ChromeDriver(options);
-driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
-
+            startDriver();
         }
         return driver;
     }
