@@ -6,7 +6,7 @@ import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
 import static io.cucumber.junit.platform.engine.Constants.EXECUTION_DRY_RUN_PROPERTY_NAME;
-import static io.cucumber.junit.platform.engine.Constants.FILTER_TAGS_PROPERTY_NAME; // <-- Importante
+import static io.cucumber.junit.platform.engine.Constants.FILTER_TAGS_PROPERTY_NAME;
 import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 
@@ -19,7 +19,7 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 )
 @ConfigurationParameter(
         key = FILTER_TAGS_PROPERTY_NAME,
-        value = "@Carrito" // <-- Ejecuta solo las características/escenarios con la etiqueta @Carrito
+        value = "@Carrito or @Autenticacion" // <-- Se unifican los tags con "or"
 )
 @ConfigurationParameter(
         key = PLUGIN_PROPERTY_NAME,

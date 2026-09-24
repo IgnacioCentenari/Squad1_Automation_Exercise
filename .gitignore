@@ -1,0 +1,23 @@
+# --- Maven Build ---
+target/
+*.tag
+*.log
+
+# --- Allure Reports ---
+**/allure-results/
+**/allure-report/
+
+# --- IDEs (IntelliJ / Eclipse / VS Code) ---
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.settings/
+.classpath
+.project
+.vscode/
+
+# --- Sistema Operativo ---
+.DS_Store
+Thumbs.db

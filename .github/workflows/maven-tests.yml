@@ -1,0 +1,33 @@
+name: Automation Tests Pipeline
+
+on:
+  push:
+    branches: [ "main", "rama_integracion" ]
+  pull_request:
+    branches: [ "main", "rama_integracion" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Ejecutar pruebas automatizadas
+        run: mvn clean test -DcontinueOnFailure=true
+
+      - name: Subir resultados de Allure como Artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: target/allure-results/
+          retention-days: 7
