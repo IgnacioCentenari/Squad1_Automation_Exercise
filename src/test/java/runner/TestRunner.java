@@ -7,6 +7,7 @@ import org.junit.platform.suite.api.Suite;
 
 import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
+import static io.cucumber.junit.platform.engine.Constants.SNIPPET_TYPE_PROPERTY_NAME;
 
 @Suite
 @IncludeEngines("cucumber")
@@ -21,6 +22,10 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
                 "html:target/cucumber-reports/cucumber.html, " +
                 "json:target/cucumber-reports/cucumber.json, " +
                 "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+)
+@ConfigurationParameter(
+        key = SNIPPET_TYPE_PROPERTY_NAME,
+        value = "camelcase"
 )
 public class TestRunner {
 }

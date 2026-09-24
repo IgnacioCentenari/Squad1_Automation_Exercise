@@ -1,0 +1,10 @@
+steps\AuthSteps.class
+steps\CommonSteps.class
+steps\RegistroSteps.class
+steps\CheckoutSteps.class
+steps\ContactoSteps.class
+steps\CatalogoSteps.class
+steps\CarritoSteps.class
+hooks\Hooks.class
+runner\TestRunner.class
+utils\DriverManager.class
