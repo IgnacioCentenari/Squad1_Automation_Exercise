@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
 import java.util.List;
 
 public class ProductosPage extends CommonPage {
@@ -135,10 +134,9 @@ public class ProductosPage extends CommonPage {
 
     // Es necesario implementarlo de esta manera para evitar la interferencia con un anuncio pop up
     public void hacerClickBotonBusqueda() {
-        org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", botonBuscar);
         js.executeScript("arguments[0].click();", botonBuscar);
-    }
     }
 
     public boolean todosLosProductosContienen(String textoEsperado) {
@@ -146,15 +144,14 @@ public class ProductosPage extends CommonPage {
             return false;
         }
 
-        String textoBusqueda = textoEsperado.toLowerCase();
+        String textoBusqueda = textoEsperado.trim().toLowerCase();
 
         for (WebElement producto : nombresProductosVisibles) {
-            if (producto.isDisplayed()) {
-                String nombreActual = producto.getText().toLowerCase();
-                if (!nombreActual.contains(textoBusqueda)) {
-                    return false;
-                }
-            }
+            String nombreActual = producto.getAttribute("innerText").trim().toLowerCase();
+
+            if (!nombreActual.isEmpty() && !nombreActual.contains(textoBusqueda)) {
+                System.out.println("❌ Producto que rompió la validación: " + nombreActual);
+                return false;
             }
         }
         return true;
@@ -167,59 +164,31 @@ public class ProductosPage extends CommonPage {
     // --- FILTROS ---
 
     public void seleccionarCategoriaYSubcategoria(String categoria, String subcategoria) {
-        org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(15));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebDriverWait waitLocal = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         // Búsqueda y clic en la categoría
         By catLocator = By.xpath("//div[@id='accordian']//a[normalize-space()='" + categoria + "']");
-        WebElement catElement = wait.until(ExpectedConditions.elementToBeClickable(catLocator));
+        WebElement catElement = waitLocal.until(ExpectedConditions.elementToBeClickable(catLocator));
         js.executeScript("arguments[0].scrollIntoView(true);", catElement);
         js.executeScript("arguments[0].click();", catElement);
 
         // Búsqueda y clic en la subcategoría
-        By subcatLocator = By.xpath("//div[@id='accordian']//a[normalize-space()='" + subcategoria + "']");
-        WebElement subcatElement = wait.until(ExpectedConditions.elementToBeClickable(subcatLocator));
-        js.executeScript("arguments[0].scrollIntoView(true);", subcatElement);
-        js.executeScript("arguments[0].click();", subcatElement);
-    }
-
-        // Busqueda y clic en la categoría
-        By catLocator = By.xpath("//div[@id='accordian']//a[normalize-space()='" + categoria + "']");
-        WebElement catElement = wait.until(
-                ExpectedConditions.elementToBeClickable(catLocator)
-        );
-        //Para evitar el pop up
-        js.executeScript("arguments[0].scrollIntoView(true);", catElement);
-        js.executeScript("arguments[0].click();", catElement);
-
-        // 2. Esperar a que la subcategoría aparezca (usando un XPath flexible que busca en el panel lateral
-        // por si el ID del contenedor colapsable difiere en mayúsculas/minúsculas, ej: 'kids' vs 'Kids')
-        By subCatLocator = By.xpath("//div[contains(@id, '" + categoria + "')]//a[normalize-space()='" + subcategoria + "']");
-
-        WebElement subCatElement = wait.until(
-                ExpectedConditions.elementToBeClickable(subCatLocator)
-        );
-
-
+        By subCatLocator = By.xpath("//div[contains(@id, '" + categoria.toLowerCase() + "') or contains(@id, '" + categoria + "')]//a[normalize-space()='" + subcategoria + "']");
+        WebElement subCatElement = waitLocal.until(ExpectedConditions.elementToBeClickable(subCatLocator));
         js.executeScript("arguments[0].scrollIntoView(true);", subCatElement);
         js.executeScript("arguments[0].click();", subCatElement);
     }
 
     public void seleccionarMarca(String marca) {
-        org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
-
-        // XPath robusto usando normalize-space para buscar el enlace o texto de la marca
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
         By marcaLocator = By.xpath("//div[@class='brands-name']//a[contains(normalize-space(), '" + marca + "')]");
 
-        // 1. Esperar a que el elemento sea clickeable
-        WebElement marcaElement = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(10))
-                .until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(marcaLocator));
+        WebElement marcaElement = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(marcaLocator));
 
-        // 2. Hacer scroll para sacarlo de abajo de cualquier anuncio flotante (podría no ser necesario)
         js.executeScript("arguments[0].scrollIntoView(true);", marcaElement);
-
-        // 3. Forzar el clic por JavaScript para evitar intercepciones
         js.executeScript("arguments[0].click();", marcaElement);
     }
 
@@ -227,8 +196,8 @@ public class ProductosPage extends CommonPage {
     private WebElement tituloCategoria;
 
     public String obtenerTextoTituloCategoria() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(tituloCategoria));
+        WebDriverWait waitLocal = new WebDriverWait(driver, Duration.ofSeconds(10));
+        waitLocal.until(ExpectedConditions.visibilityOf(tituloCategoria));
 
         return tituloCategoria.getText();
     }

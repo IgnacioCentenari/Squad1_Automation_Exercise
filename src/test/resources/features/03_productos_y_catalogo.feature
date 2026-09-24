@@ -61,29 +61,29 @@ Característica: Catálogo, Búsqueda y Filtros
   @TC-22 @Catalogo @Filtros
   Escenario: Filtrar productos por categoría Women - Dress
     Cuando selecciona la categoría "Women" y subcategoría "Dress"
-    Entonces el sistema debe mostrar el mensaje "Women - Dress Products"
+    Entonces el sistema debe mostrar el mensaje del catalogo "Women - Dress Products"
 
   @TC-23 @Catalogo @Filtros
   Escenario: Filtrar productos por categoría Men - Tshirts
     Cuando selecciona la categoría "Men" y subcategoría "Tshirts"
-    Entonces el sistema debe mostrar el mensaje "Men - Tshirts Products"
+    Entonces el sistema debe mostrar el mensaje del catalogo "Men - Tshirts Products"
 
   @TC-24 @Catalogo @Filtros
   Escenario: Filtrar productos por categoría Kids - Tops
     Cuando selecciona la categoría "Kids" y subcategoría "Tops"
-    Entonces el sistema debe mostrar el mensaje "Kids - Tops Products"
+    Entonces el sistema debe mostrar el mensaje del catalogo "Kids - Tops Products"
 
   @TC-25 @Catalogo @Filtros
   Escenario: Filtrar productos por marca Polo
     Cuando selecciona la marca "Polo"
-    Entonces el sistema debe mostrar el mensaje "Brand - Polo Products"
+    Entonces el sistema debe mostrar el mensaje del catalogo "Brand - Polo Products"
 
   @TC-26 @Catalogo @Filtros
   Escenario: Filtrar productos por marca H&M
     Cuando selecciona la marca "H&M"
-    Entonces el sistema debe mostrar el mensaje "Brand - H&M Products"
+    Entonces el sistema debe mostrar el mensaje del catalogo "Brand - H&M Products"
 
   @TC-27 @Catalogo @Filtros
   Escenario: Filtrar productos por marca Madame
     Cuando selecciona la marca "Madame"
-    Entonces el sistema debe mostrar el mensaje "Brand - Madame Products"
+    Entonces el sistema debe mostrar el mensaje del catalogo "Brand - Madame Products"

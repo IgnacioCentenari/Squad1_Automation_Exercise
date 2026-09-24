@@ -37,8 +37,9 @@ public class CatalogoSteps {
 
     @Entonces("debe visualizarse el listado con los productos que contienen {string}")
     public void verificarProductosContienenTexto(String textoEsperado) {
-        Assertions.assertTrue(productosPage.todosLosProductosContienen(textoEsperado),
-                "Se encontraron productos que no contienen el texto esperado: " + textoEsperado);
+        boolean resultado = productosPage.todosLosProductosContienen(textoEsperado);
+        Assertions.assertTrue(resultado,
+                String.format("Error: Se encontraron productos en la lista que no contienen la palabra '%s'.", textoEsperado));
     }
 
     @Entonces("el listado de productos debe mostrarse vacío")
@@ -62,7 +63,7 @@ public class CatalogoSteps {
         productosPage.hacerClickBotonBusqueda();
     }
 
-    @Entonces("el sistema debe mostrar el mensaje {string}")
+    @Entonces("el sistema debe mostrar el mensaje del catalogo {string}")
     public void elSistemaDebeMostrarElMensaje(String mensajeEsperado) {
         String textoActual = productosPage.obtenerTextoTituloCategoria();
 
