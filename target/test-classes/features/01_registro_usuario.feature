@@ -10,7 +10,7 @@ Característica: Registro de Usuarios
   @TC-01 @Registro @Smoke @Positivo
   Escenario: Registro exitoso con datos válidos y verificación de campos obligatorios
     Cuando ingresa "user" en el campo "Name"
-    Y ingresa "user_nuevo@prueba.com" en el campo "Email Address Signup"
+    Y ingresa "user_nuevo6@prueba.com" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
     Y completa los campos obligatorios del formulario de registro:
       | Titulo         | Mr.             |
@@ -30,27 +30,46 @@ Característica: Registro de Usuarios
     Entonces el sistema debe mostrar el mensaje "ACCOUNT CREATED!"
     Cuando hace clic en el botón "Continue"
     Entonces el sistema debe mostrar el mensaje "Logged in as user"
-
   @TC-02 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail sin arroba
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "user_sin_arroba" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Incluye un símbolo @ en la dirección de correo."
+    Entonces el sistema debe mostrar el mensaje "Incluye un signo \"@\" en la dirección de correo electrónico. La dirección \"user_sin_arroba\" no incluye el signo \"@\"."
 
   @TC-03 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail incompleto tras arroba
     Cuando ingresa "user" en el campo "Name"
-    Y ingresa "user@dominio" en el campo "Email Address Signup"
+    Y ingresa "user@" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Introduce un texto después del signo @."
+    Entonces el sistema debe mostrar el mensaje "Introduce texto detrás del signo \"@\". La dirección \"user@\" está incompleta."
 
   @TC-04 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail sin texto previo a arroba
     Cuando ingresa "user" en el campo "Name"
     Y ingresa "@prueba.com" en el campo "Email Address Signup"
     Y hace clic en el botón "Signup"
-    Entonces el sistema debe mostrar el mensaje "Introduce un texto antes del signo @."
+    Entonces el sistema debe mostrar el mensaje "Introduce texto seguido del signo \"@\". La dirección \"@prueba.com\" está incompleta."
+#  @TC-02 @Registro @Negativo @ValidacionCampos
+#  Escenario: Validación de e-mail sin arroba
+#    Cuando ingresa "user" en el campo "Name"
+#    Y ingresa "user_sin_arroba" en el campo "Email Address Signup"
+#    Y hace clic en el botón "Signup"
+#    Entonces el sistema debe mostrar el mensaje "Incluye un símbolo @ en la dirección de correo."
+#
+#  @TC-03 @Registro @Negativo @ValidacionCampos
+#  Escenario: Validación de e-mail incompleto tras arroba
+#    Cuando ingresa "user" en el campo "Name"
+#    Y ingresa "user@" en el campo "Email Address Signup"
+#    Y hace clic en el botón "Signup"
+#    Entonces el sistema debe mostrar el mensaje "Introduce un texto después del signo @."
+#
+#  @TC-04 @Registro @Negativo @ValidacionCampos
+#  Escenario: Validación de e-mail sin texto previo a arroba
+#    Cuando ingresa "user" en el campo "Name"
+#    Y ingresa "@prueba.com" en el campo "Email Address Signup"
+#    Y hace clic en el botón "Signup"
+#    Entonces el sistema debe mostrar el mensaje "Introduce un texto antes del signo @."
 
   @TC-05 @Registro @Negativo @UsuarioExistente
   Escenario: Intentar registrar un usuario con un e-mail previamente registrado
