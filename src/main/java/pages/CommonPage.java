@@ -1,9 +1,13 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class CommonPage extends BasePage {
 
@@ -34,5 +38,14 @@ public class CommonPage extends BasePage {
         ));
         WebElement boton = wait.until(ExpectedConditions.elementToBeClickable(localizador));
         hacerClick(boton);
+    }
+
+    public boolean esperarUrlQueContenga(String subcadenaUrl, int segundosEspera) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(segundosEspera));
+            return wait.until(ExpectedConditions.urlContains(subcadenaUrl));
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }

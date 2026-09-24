@@ -13,7 +13,7 @@ import utils.DriverManager;
 
 import java.time.Duration;
 
-public class AuthSteps {
+public class AutenticacionSteps {
 
     private WebDriver getDriver() {
         return DriverManager.getDriver();

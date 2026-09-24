@@ -4,7 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.List;
 
 public class ProductosPage extends CommonPage {
 
@@ -36,12 +39,10 @@ public class ProductosPage extends CommonPage {
     }
 
     public ProductoDetallePage irAlDetalleDelProducto(String nombreProducto) {
-        // 1. Si no estamos en la vista de catálogo, navegamos primero a /products
         if (!driver.getCurrentUrl().endsWith("/products")) {
             navegarARutaRelativa("/products");
         }
 
-        // 2. Buscamos la tarjeta del producto especificado
         String xpathVerDetalle = String.format(
                 "//div[contains(@class,'product-image-wrapper') and .//p[contains(normalize-space(),'%s')]]//a[contains(@href,'/product_details/')]",
                 nombreProducto
@@ -49,13 +50,11 @@ public class ProductosPage extends CommonPage {
 
         WebElement botonVerDetalle = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpathVerDetalle)));
 
-        // 3. Scroll y clic seguro
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", botonVerDetalle);
 
         hacerClick(botonVerDetalle);
 
-        // 4. Esperamos a que la página de detalle termine de cargar
         wait.until(ExpectedConditions.urlContains("/product_details/"));
 
         return new ProductoDetallePage(driver);
@@ -67,37 +66,27 @@ public class ProductosPage extends CommonPage {
             WebElement botonContinuar = wait.until(ExpectedConditions.elementToBeClickable(locatorBotonContinuar));
             hacerClick(botonContinuar);
         } catch (Exception e) {
-            // Si no aparece el modal, continúa
+            // Si el modal no se despliega, continúa
         }
     }
 
-    // --- Identificador para el contenedor de los productos y cada tarjeta individual---
+    // --- ELEMENTOS DE CATÁLOGO ---
 
     @FindBy(xpath = "//div[@class='features_items']")
-    private  WebElement contenedorProductos;
+    private WebElement contenedorProductos;
 
     @FindBy(xpath = "//div[@class='product-image-wrapper']")
-    private  java.util.List<WebElement> listaTarjetasProductos;
+    private List<WebElement> listaTarjetasProductos;
 
-    /**
-     * Los productos son visibles (aparece el contenedor).
-     */
     public boolean esListadoProductosVisible() {
         return wait.until(ExpectedConditions.visibilityOf(contenedorProductos)).isDisplayed();
     }
 
-    /**
-     * Valida que los elementos especificados (Nombre, Precio, Imagen, Estado)
-     * estén presentes en los productos del catálogo.
-     * Lo hacemos solamente para el primero por una cuestión de simplicidad
-     */
-    public boolean validarElementosProductos(java.util.List<String> elementosEsperados) {
-        // Aseguramos que hay productos listados
+    public boolean validarElementosProductos(List<String> elementosEsperados) {
         if (listaTarjetasProductos.isEmpty()) {
             return false;
         }
 
-        // Validamos el primer producto (o podemos recorrerlos todos) como muestra representativa
         WebElement primerProducto = listaTarjetasProductos.get(0);
 
         for (String elemento : elementosEsperados) {
@@ -112,7 +101,6 @@ public class ProductosPage extends CommonPage {
                     if (!primerProducto.findElement(By.xpath(".//img")).isDisplayed()) return false;
                     break;
                 case "estado":
-                    // El "estado" suele ser el botón de "Add to cart" o visualización de stock
                     if (!primerProducto.findElement(By.xpath(".//a[contains(@class,'add-to-cart')]")).isDisplayed()) return false;
                     break;
                 default:
@@ -123,41 +111,28 @@ public class ProductosPage extends CommonPage {
     }
 
     // --- ELEMENTOS DE BÚSQUEDA ---
+
     @FindBy(id = "search_product")
     private WebElement inputBuscarProducto;
 
     @FindBy(id = "submit_search")
     private WebElement botonBuscar;
 
-    // Lista con los textos (nombres) de los productos que aparecen en pantalla
     @FindBy(xpath = "//div[@class='features_items']//div[@class='productinfo text-center']/p")
-    private java.util.List<WebElement> nombresProductosVisibles;
+    private List<WebElement> nombresProductosVisibles;
 
-    // Tarjetas completas para contar cuántos productos hay (útil para el caso vacío)
     @FindBy(xpath = "//div[@class='features_items']//div[@class='product-image-wrapper']")
-    private java.util.List<WebElement> tarjetasProductos;
+    private List<WebElement> tarjetasProductos;
 
-
-    // --- ACCIONES ---
-
-    /**
-     * Ingresa el texto en el buscador y hace clic en la lupa.
-     */
     public void buscarProducto(String texto) {
         wait.until(ExpectedConditions.visibilityOf(inputBuscarProducto)).clear();
         inputBuscarProducto.sendKeys(texto);
         wait.until(ExpectedConditions.elementToBeClickable(botonBuscar)).click();
     }
 
-    // --- Validaciones de búsqueda ---
-
-    /**
-     * Verifica que CADA uno de los productos mostrados en pantalla
-     * contenga el texto buscado (ignorando mayúsculas/minúsculas para mayor seguridad).
-     */
     public boolean todosLosProductosContienen(String textoEsperado) {
         if (tarjetasProductos.isEmpty()) {
-            return false; // Si no hay productos, no contiene nada
+            return false;
         }
 
         String textoBusqueda = textoEsperado.toLowerCase();
@@ -165,26 +140,19 @@ public class ProductosPage extends CommonPage {
         for (WebElement producto : nombresProductosVisibles) {
             String nombreActual = producto.getText().toLowerCase();
             if (!nombreActual.contains(textoBusqueda)) {
-                return false; // Si al menos uno no coincide, la validación falla
+                return false;
             }
         }
-        return true; // Todos coinciden
+        return true;
     }
 
-    /**
-     * Devuelve la cantidad de productos visibles en el catálogo.
-     * (Ideal para verificar el escenario negativo donde la lista debe estar vacía).
-     */
     public int obtenerCantidadProductos() {
         return tarjetasProductos.size();
     }
 
+    // --- FILTROS ---
 
-    //FILTROS
-
-    // Seleccionar categoría y subcategoría
     public void seleccionarCategoriaYSubcategoria(String categoria, String subcategoria) {
-        // Ejemplo genérico con XPath dinámico para menús laterales
         WebElement catElement = driver.findElement(By.xpath("//a[contains(text(), '" + categoria + "')]"));
         catElement.click();
 
@@ -192,7 +160,6 @@ public class ProductosPage extends CommonPage {
         subCatElement.click();
     }
 
-    // Seleccionar marca
     public void seleccionarMarca(String marca) {
         WebElement marcaCheckbox = driver.findElement(By.xpath("//label[contains(., '" + marca + "')]//input | //span[text()='" + marca + "']"));
         marcaCheckbox.click();

@@ -89,7 +89,7 @@ public class CarritoSteps {
     }
 
     // 6. Paso para validar mensajes en pantalla (Ej: "Cart is empty!")
-    @Entonces("el sistema debe mostrar el mensaje {string}")
+    @Entonces("la pantalla debe mostrar el mensaje {string}")
     public void elSistemaDebeMostrarElMensaje(String mensajeEsperado) {
         boolean estaVisible = getCarritoPage().estaMensajeCarritoVacioVisible(mensajeEsperado);
         Assertions.assertTrue(

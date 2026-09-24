@@ -35,7 +35,7 @@ Característica: Gestión del Carrito de Compras
     Cuando agrega "1" unidades del producto "Blue Top" al carrito desde el catálogo
     Y el usuario navega a la página "/view_cart"
     Y elimina el producto "Blue Top" del carrito
-    Entonces el sistema debe mostrar el mensaje "Cart is empty!"
+    Entonces la pantalla debe mostrar el mensaje "Cart is empty!"
 
   @TC-31 @Carrito @Persistencia
   Escenario: Verificación de la persistencia del carrito al navegar a otras secciones
