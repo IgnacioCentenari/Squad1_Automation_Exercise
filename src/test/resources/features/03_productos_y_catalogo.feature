@@ -18,44 +18,44 @@ Característica: Catálogo, Búsqueda y Filtros
 
   @TC-15 @Catalogo @Busqueda
   Escenario: Búsqueda exitosa de producto coincidencia exacta
-    Cuando ingresa "Blue Top" en el campo "Search Product"
-    Y hace clic en el botón "Search"
+    Cuando ingreso "Blue Top" en el campo "Search Product"
+    Y hago clic en el botón de búsqueda
     Entonces debe visualizarse el listado con los productos que contienen "Blue Top"
 
   @TC-16 @Catalogo @Busqueda
   Escenario: Búsqueda exitosa de producto coincidencia parcial "Top"
-    Cuando ingresa "Top" en el campo "Search Product"
-    Y hace clic en el botón "Search"
+    Cuando ingreso "Top" en el campo "Search Product"
+    Y hago clic en el botón de búsqueda
     Entonces debe visualizarse el listado con los productos que contienen "Top"
 
   @TC-17 @Catalogo @Busqueda
   Escenario: Búsqueda exitosa de producto coincidencia parcial "Jeans"
-    Cuando ingresa "Jeans" en el campo "Search Product"
-    Y hace clic en el botón "Search"
+    Cuando ingreso "Jeans" en el campo "Search Product"
+    Y hago clic en el botón de búsqueda
     Entonces debe visualizarse el listado con los productos que contienen "Jeans"
 
   @TC-18 @Catalogo @Busqueda
   Escenario: Búsqueda sin distinción de mayúsculas
-    Cuando ingresa "BLUE TOP" en el campo "Search Product"
-    Y hace clic en el botón "Search"
+    Cuando ingreso "BLUE TOP" en el campo "Search Product"
+    Y hago clic en el botón de búsqueda
     Entonces debe visualizarse el listado con los productos que contienen "Blue Top"
 
   @TC-19 @Catalogo @Busqueda
   Escenario: Búsqueda sin distinción de minúsculas
-    Cuando ingresa "blue top" en el campo "Search Product"
-    Y hace clic en el botón "Search"
+    Cuando ingreso "blue top" en el campo "Search Product"
+    Y hago clic en el botón de búsqueda
     Entonces debe visualizarse el listado con los productos que contienen "Blue Top"
 
   @TC-20 @Catalogo @Busqueda
   Escenario: Búsqueda sin distinción de formato mixto
-    Cuando ingresa "BlUe ToP" en el campo "Search Product"
-    Y hace clic en el botón "Search"
+    Cuando ingreso "BlUe ToP" en el campo "Search Product"
+    Y hago clic en el botón de búsqueda
     Entonces debe visualizarse el listado con los productos que contienen "Blue Top"
 
   @TC-21 @Catalogo @Busqueda @Negativo
   Escenario: Búsqueda de un producto que no existe en el catálogo
-    Cuando ingresa "ProductoInexistente12345" en el campo "Search Product"
-    Y hace clic en el botón "Search"
+    Cuando ingreso "ProductoInexistente12345" en el campo "Search Product"
+    Y hago clic en el botón de búsqueda
     Entonces el listado de productos debe mostrarse vacío
 
   @TC-22 @Catalogo @Filtros

@@ -3,25 +3,26 @@ package steps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
+import io.cucumber.java.es.Y;
 import org.junit.jupiter.api.Assertions;
 import pages.ProductosPage;
 
 import java.util.List;
-import utils.DriverManager;
+import hooks.Hooks;
 
 public class CatalogoSteps {
 
     //private ProductosPage productosPage = new ProductosPage(DriverManager.getDriver());
     // Declaramos la variable sin instanciarla todavía
-    private ProductosPage productosPage;
+    ProductosPage productosPage = new ProductosPage(Hooks.getDriver());
 
     // Mét odo privado para obtener la instancia de forma segura
-    private ProductosPage getProductosPage() {
-        if (productosPage == null) {
-            productosPage = new ProductosPage(DriverManager.getDriver());
-        }
-        return productosPage;
-    }
+//    private ProductosPage getProductosPage() {
+//        if (productosPage == null) {
+//            productosPage = new ProductosPage(DriverManager.getDriver());
+//        }
+//        return productosPage;
+//    }
 
     @Entonces("debe visualizarse el listado de productos")
     public void verificarListadoProductosPresente() {
@@ -54,5 +55,24 @@ public class CatalogoSteps {
     @Cuando("selecciona la marca {string}")
     public void seleccionarMarca(String marca) {
         productosPage.seleccionarMarca(marca);
+    }
+
+    @Y("hago clic en el botón de búsqueda")
+    public void haceClicEnElBotonDeBusquedaDelCatalogo() {
+        productosPage.hacerClickBotonBusqueda();
+    }
+
+    @Entonces("el sistema debe mostrar el mensaje {string}")
+    public void elSistemaDebeMostrarElMensaje(String mensajeEsperado) {
+        String textoActual = productosPage.obtenerTextoTituloCategoria();
+
+        // Normalizamos: pasamos a minúsculas y reemplazamos cualquier espacio doble o múltiple por uno solo
+        String textoActualNormalizado = textoActual.toLowerCase().replaceAll("\\s+", " ");
+        String mensajeEsperadoNormalizado = mensajeEsperado.toLowerCase().replaceAll("\\s+", " ");
+
+        Assertions.assertTrue(
+                textoActualNormalizado.contains(mensajeEsperadoNormalizado),
+                "Se esperaba que el título contuviera '" + mensajeEsperado + "', pero se obtuvo '" + textoActual + "'"
+        );
     }
 }

@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import java.util.List;
 
@@ -130,6 +133,14 @@ public class ProductosPage extends CommonPage {
         wait.until(ExpectedConditions.elementToBeClickable(botonBuscar)).click();
     }
 
+    // Es necesario implementarlo de esta manera para evitar la interferencia con un anuncio pop up
+    public void hacerClickBotonBusqueda() {
+        org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", botonBuscar);
+        js.executeScript("arguments[0].click();", botonBuscar);
+    }
+    }
+
     public boolean todosLosProductosContienen(String textoEsperado) {
         if (tarjetasProductos.isEmpty()) {
             return false;
@@ -138,9 +149,12 @@ public class ProductosPage extends CommonPage {
         String textoBusqueda = textoEsperado.toLowerCase();
 
         for (WebElement producto : nombresProductosVisibles) {
-            String nombreActual = producto.getText().toLowerCase();
-            if (!nombreActual.contains(textoBusqueda)) {
-                return false;
+            if (producto.isDisplayed()) {
+                String nombreActual = producto.getText().toLowerCase();
+                if (!nombreActual.contains(textoBusqueda)) {
+                    return false;
+                }
+            }
             }
         }
         return true;
@@ -153,15 +167,69 @@ public class ProductosPage extends CommonPage {
     // --- FILTROS ---
 
     public void seleccionarCategoriaYSubcategoria(String categoria, String subcategoria) {
-        WebElement catElement = driver.findElement(By.xpath("//a[contains(text(), '" + categoria + "')]"));
-        catElement.click();
+        org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(15));
 
-        WebElement subCatElement = driver.findElement(By.xpath("//a[contains(text(), '" + subcategoria + "')]"));
-        subCatElement.click();
+        // Búsqueda y clic en la categoría
+        By catLocator = By.xpath("//div[@id='accordian']//a[normalize-space()='" + categoria + "']");
+        WebElement catElement = wait.until(ExpectedConditions.elementToBeClickable(catLocator));
+        js.executeScript("arguments[0].scrollIntoView(true);", catElement);
+        js.executeScript("arguments[0].click();", catElement);
+
+        // Búsqueda y clic en la subcategoría
+        By subcatLocator = By.xpath("//div[@id='accordian']//a[normalize-space()='" + subcategoria + "']");
+        WebElement subcatElement = wait.until(ExpectedConditions.elementToBeClickable(subcatLocator));
+        js.executeScript("arguments[0].scrollIntoView(true);", subcatElement);
+        js.executeScript("arguments[0].click();", subcatElement);
+    }
+
+        // Busqueda y clic en la categoría
+        By catLocator = By.xpath("//div[@id='accordian']//a[normalize-space()='" + categoria + "']");
+        WebElement catElement = wait.until(
+                ExpectedConditions.elementToBeClickable(catLocator)
+        );
+        //Para evitar el pop up
+        js.executeScript("arguments[0].scrollIntoView(true);", catElement);
+        js.executeScript("arguments[0].click();", catElement);
+
+        // 2. Esperar a que la subcategoría aparezca (usando un XPath flexible que busca en el panel lateral
+        // por si el ID del contenedor colapsable difiere en mayúsculas/minúsculas, ej: 'kids' vs 'Kids')
+        By subCatLocator = By.xpath("//div[contains(@id, '" + categoria + "')]//a[normalize-space()='" + subcategoria + "']");
+
+        WebElement subCatElement = wait.until(
+                ExpectedConditions.elementToBeClickable(subCatLocator)
+        );
+
+
+        js.executeScript("arguments[0].scrollIntoView(true);", subCatElement);
+        js.executeScript("arguments[0].click();", subCatElement);
     }
 
     public void seleccionarMarca(String marca) {
-        WebElement marcaCheckbox = driver.findElement(By.xpath("//label[contains(., '" + marca + "')]//input | //span[text()='" + marca + "']"));
-        marcaCheckbox.click();
+        org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) driver;
+
+        // XPath robusto usando normalize-space para buscar el enlace o texto de la marca
+
+        By marcaLocator = By.xpath("//div[@class='brands-name']//a[contains(normalize-space(), '" + marca + "')]");
+
+        // 1. Esperar a que el elemento sea clickeable
+        WebElement marcaElement = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(10))
+                .until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(marcaLocator));
+
+        // 2. Hacer scroll para sacarlo de abajo de cualquier anuncio flotante (podría no ser necesario)
+        js.executeScript("arguments[0].scrollIntoView(true);", marcaElement);
+
+        // 3. Forzar el clic por JavaScript para evitar intercepciones
+        js.executeScript("arguments[0].click();", marcaElement);
+    }
+
+    @FindBy(xpath = "//h2[@class='title text-center']")
+    private WebElement tituloCategoria;
+
+    public String obtenerTextoTituloCategoria() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(tituloCategoria));
+
+        return tituloCategoria.getText();
     }
 }
