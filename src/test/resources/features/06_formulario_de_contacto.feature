@@ -16,7 +16,7 @@ Característica: Formulario de Contacto
       | Message | Estimados, solicito información sobre el estado... |
     Y hace clic en el botón "Submit"
     Y acepta la alerta emergente del navegador
-    Entonces el sistema debe mostrar el mensaje "Success! Your details have been submitted successfully."
+    Entonces el sistema debe devolver el mensaje "Success! Your details have been submitted successfully."
     Cuando hace clic en el botón "Home"
     Entonces el sistema debe navegar a la página "/"
 
@@ -28,7 +28,7 @@ Característica: Formulario de Contacto
       | Subject | Consulta de prueba |
       | Message | Mensaje de prueba. |
     Y hace clic en el botón "Submit"
-    Entonces el sistema debe mostrar el mensaje "Introduce un texto después del signo @."
+    Entonces el sistema debe devolver el mensaje "Introduce un texto después del signo @."
 
   @TC-41 @Contacto @Negativo @ValidacionEmail
   Escenario: Formulario de contacto con formato de email incompleto (sin usuario)
@@ -38,7 +38,7 @@ Característica: Formulario de Contacto
       | Subject | Consulta de prueba |
       | Message | Mensaje de prueba. |
     Y hace clic en el botón "Submit"
-    Entonces el sistema debe mostrar el mensaje "Introduce un texto antes del signo @."
+    Entonces el sistema debe devolver el mensaje "Introduce un texto antes del signo @."
 
   @TC-42 @Contacto @Negativo @ValidacionEmail
   Escenario: Formulario de contacto con el campo email vacío

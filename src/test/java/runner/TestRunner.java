@@ -19,7 +19,7 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 )
 @ConfigurationParameter(
         key = FILTER_TAGS_PROPERTY_NAME,
-        value = "@Pago or @Carrito or @Autenticacion or @Registro or @Catalogo " // <-- Agregás el tag de Registro acá
+        value = " @Pago or @Carrito or @Autenticacion or @Registro or @Catalogo or @Contacto" // <-- Agregás el tag de Registro acá
 //
 )
 // @Pago or @Carrito or @Autenticacion or @Registro

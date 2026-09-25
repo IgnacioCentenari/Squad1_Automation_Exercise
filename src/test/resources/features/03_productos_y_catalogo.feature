@@ -70,8 +70,8 @@ Característica: Catálogo, Búsqueda y Filtros
 
   @TC-24 @Catalogo @Filtros
   Escenario: Filtrar productos por categoría Kids - Tops
-    Cuando selecciona la categoría "Kids" y subcategoría "Tops"
-    Entonces el sistema debe mostrar el mensaje del catalogo "Kids - Tops Products"
+    Cuando selecciona la categoría "Kids" y subcategoría "Tops & Shirts"
+    Entonces el sistema debe mostrar el mensaje del catalogo "KIDS - TOPS & SHIRTS PRODUCTS"
 
   @TC-25 @Catalogo @Filtros
   Escenario: Filtrar productos por marca Polo

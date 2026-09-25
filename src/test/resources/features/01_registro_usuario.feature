@@ -30,6 +30,7 @@ Característica: Registro de Usuarios
     Entonces debe mostrar el mensaje "ACCOUNT CREATED!"
     Cuando hace clic en el botón "Continue"
     Entonces el sistema debe mostrar el mensaje "Logged in as user"
+
   @TC-02 @Registro @Negativo @ValidacionCampos
   Escenario: Validación de e-mail sin arroba
     Cuando ingresa "user" en el campo "Name"

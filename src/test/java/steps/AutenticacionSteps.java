@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.ContactoPage;
 import utils.DriverManager;
 
 import java.time.Duration;
@@ -22,6 +23,8 @@ public class AutenticacionSteps {
     private WebDriverWait getWait() {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(10));
     }
+
+    private final ContactoPage contactoPage = new ContactoPage(getDriver());
 
     @Cuando("inicio sesión con email {string} y contraseña {string}")
     public void inicioSesion(String email, String password) {
@@ -116,20 +119,34 @@ public class AutenticacionSteps {
         switch (nombreCampo) {
 
             case "Email Address":
-                localizador = By.cssSelector(
-                        "input[data-qa='login-email']"
-                );
+                localizador = By.cssSelector("input[data-qa='login-email']");
                 break;
 
             case "Password":
-                localizador = By.cssSelector(
-                        "input[data-qa='login-password']"
-                );
+                localizador = By.cssSelector("input[data-qa='login-password']");
+                break;
+
+            // --- Nuevos casos para Formulario de Contacto ---
+            case "Email Contact":
+            case "Email":
+                localizador = By.cssSelector("input[data-qa='email']");
+                break;
+
+            case "Name":
+                localizador = By.cssSelector("input[data-qa='name']");
+                break;
+
+            case "Subject":
+                localizador = By.cssSelector("input[data-qa='subject']");
+                break;
+
+            case "Message":
+                localizador = By.cssSelector("textarea[data-qa='message']");
                 break;
 
             default:
                 throw new IllegalArgumentException(
-                        "Campo de login no soportado: " + nombreCampo
+                        "Campo no soportado para validación obligatoria: " + nombreCampo
                 );
         }
 
