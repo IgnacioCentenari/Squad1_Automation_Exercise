@@ -50,11 +50,15 @@ public final class DriverManager {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--lang=es-AR");
 
+                // Preferencias de idioma, autocompletado y contraseñas
                 Map<String, Object> prefs = new HashMap<>();
                 prefs.put("intl.accept_languages", "es-AR,es");
+                prefs.put("autofill.profile_enabled", false);
+                prefs.put("autofill.address_enabled", false);
+                prefs.put("autofill.credit_card_enabled", false);
+                prefs.put("credentials_enable_service", false);
+                prefs.put("profile.password_manager_enabled", false);
                 options.setExperimentalOption("prefs", prefs);
-
-                driver = new ChromeDriver(options);
 
                 // Flags requeridos para Linux / GitHub Actions
                 if (headless) {
@@ -65,16 +69,6 @@ public final class DriverManager {
                 } else {
                     options.addArguments("--start-maximized");
                 }
-
-                // Preferencias de idioma, autocompletado y contraseñas
-
-                prefs.put("intl.accept_languages", "es-ES,es");
-                prefs.put("autofill.profile_enabled", false);
-                prefs.put("autofill.address_enabled", false);
-                prefs.put("autofill.credit_card_enabled", false);
-                prefs.put("credentials_enable_service", false);
-                prefs.put("profile.password_manager_enabled", false);
-                options.setExperimentalOption("prefs", prefs);
 
                 options.addArguments("--disable-save-password-bubble");
                 options.addArguments("--disable-notifications");
