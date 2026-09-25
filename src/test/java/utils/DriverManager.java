@@ -13,7 +13,7 @@ import java.util.Map;
 public final class DriverManager {
 
     private static WebDriver driver;
-    public static final String BASE_URL = "https://automationexercise.com";
+    //public static final String BASE_URL = "https://automationexercise.com";
 
     private DriverManager() {
     }
@@ -51,7 +51,10 @@ public final class DriverManager {
 
                 // Forzar idioma en español para mensajes HTML5 nativos
                 options.addArguments("--lang=es");
-
+                Map<String, Object> prefs = new HashMap<>();
+// ... (tus prefs existentes)
+                prefs.put("intl.accept_languages", "es-AR,es");
+                options.setExperimentalOption("prefs", prefs);
                 // Flags requeridos para Linux / GitHub Actions
                 if (headless) {
                     options.addArguments("--headless=new");
@@ -63,7 +66,7 @@ public final class DriverManager {
                 }
 
                 // Preferencias de idioma, autocompletado y contraseñas
-                Map<String, Object> prefs = new HashMap<>();
+
                 prefs.put("intl.accept_languages", "es-ES,es");
                 prefs.put("autofill.profile_enabled", false);
                 prefs.put("autofill.address_enabled", false);
@@ -92,9 +95,9 @@ public final class DriverManager {
         return driver;
     }
 
-    public static void openBaseUrl() {
-        getDriver().get(BASE_URL);
-    }
+//    public static void openBaseUrl() {
+//        getDriver().get(BASE_URL);
+//    }
 
     public static void quitDriver() {
         if (driver != null) {
