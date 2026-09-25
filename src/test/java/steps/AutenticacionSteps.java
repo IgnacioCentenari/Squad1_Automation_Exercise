@@ -67,6 +67,21 @@ public class AutenticacionSteps {
         );
     }
 
+    @Entonces("debería ver que la URL contiene {string}")
+    public void deberiaVerQueLaUrlContiene(String fragmentoUrl) {
+        // La espera explícita absorbe la redirección intermedia de Ads (#google_vignette)
+        boolean urlCorrecta = getWait().until(
+                ExpectedConditions.urlContains(fragmentoUrl)
+        );
+
+        String urlActual = getDriver().getCurrentUrl();
+
+        Assertions.assertTrue(
+                urlCorrecta,
+                "La URL actual [" + urlActual + "] no contiene la subcadena esperada [" + fragmentoUrl + "]"
+        );
+    }
+
     @Entonces("el sistema debe mostrar el mensaje {string}")
     public void elSistemaDebeMostrarElMensaje(String mensajeEsperado) {
 

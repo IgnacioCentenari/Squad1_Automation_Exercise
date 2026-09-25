@@ -94,6 +94,10 @@
                 <version>3.5.3</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
+                    <includes>
+                        <!-- Restringe la ejecución únicamente al TestRunner para evitar escenarios duplicados -->
+                        <include>**/TestRunner.java</include>
+                    </includes>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>

@@ -2,9 +2,9 @@ name: Automation Tests Pipeline
 
 on:
   push:
-    branches: [ "main", "rama_integracion", "feature/**" ]
+    branches: [ "main", "dev", "rama_integracion", "feature/**" ]
   pull_request:
-    branches: [ "main", "rama_integracion" ]
+    branches: [ "main", "dev", "rama_integracion" ]
 
 jobs:
   test:
@@ -23,6 +23,14 @@ jobs:
 
       - name: Ejecutar pruebas automatizadas
         run: mvn clean test -DcontinueOnFailure=true
+
+      - name: Publicar reporte de tests en la interfaz de GitHub
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: '**/target/surefire-reports/TEST-*.xml'
+          annotate_only: false
+          detailed_summary: true
 
       - name: Subir resultados de Allure como Artefacto
         if: always()
