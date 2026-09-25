@@ -31,6 +31,10 @@ public final class DriverManager {
         switch (browser) {
             case "edge" -> {
                 EdgeOptions options = new EdgeOptions();
+
+                // Forzar idioma en español
+                options.addArguments("--lang=es");
+
                 if (headless) {
                     options.addArguments("--headless=new");
                     options.addArguments("--no-sandbox");
@@ -45,6 +49,9 @@ public final class DriverManager {
             case "chrome" -> {
                 ChromeOptions options = new ChromeOptions();
 
+                // Forzar idioma en español para mensajes HTML5 nativos
+                options.addArguments("--lang=es");
+
                 // Flags requeridos para Linux / GitHub Actions
                 if (headless) {
                     options.addArguments("--headless=new");
@@ -55,8 +62,9 @@ public final class DriverManager {
                     options.addArguments("--start-maximized");
                 }
 
-                // Preferencias de autocompletado y contraseñas
+                // Preferencias de idioma, autocompletado y contraseñas
                 Map<String, Object> prefs = new HashMap<>();
+                prefs.put("intl.accept_languages", "es-ES,es");
                 prefs.put("autofill.profile_enabled", false);
                 prefs.put("autofill.address_enabled", false);
                 prefs.put("autofill.credit_card_enabled", false);
