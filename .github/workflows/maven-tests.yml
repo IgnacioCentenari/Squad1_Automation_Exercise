@@ -2,6 +2,7 @@ name: Automation Tests Pipeline
 
 on:
   push:
+    workflow_dispatch: {}
     branches: [ "main", "dev", "rama_integracion", "feature/**" ]
   pull_request:
     branches: [ "main", "dev", "rama_integracion" ]
