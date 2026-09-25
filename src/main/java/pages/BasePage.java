@@ -1,11 +1,11 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -34,7 +34,11 @@ public class BasePage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
     }
-
+    protected void seleccionarPorTexto(WebElement element, String texto) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        Select select = new Select(element);
+        select.selectByVisibleText(texto);
+    }
     protected void escribirTexto(WebElement element, String texto) {
         wait.until(ExpectedConditions.visibilityOf(element));
         element.clear();

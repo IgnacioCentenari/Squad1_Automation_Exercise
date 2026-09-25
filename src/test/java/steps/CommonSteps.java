@@ -32,4 +32,6 @@ public class CommonSteps {
         Assertions.assertTrue(urlActual.contains(urlEsperada),
                 "La URL actual [" + urlActual + "] no contiene la subcadena esperada [" + urlEsperada + "]");
     }
+
+
 }
