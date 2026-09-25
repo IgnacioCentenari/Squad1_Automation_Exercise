@@ -94,7 +94,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <!--                    <testFailureIgnore>true</testFailureIgnore>-->
                     <includes>
                         <!-- Restringe la ejecución únicamente al TestRunner para evitar escenarios duplicados -->
                         <include>**/TestRunner.java</include>
@@ -102,6 +102,11 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
+                    <properties>
+                        <configurationParameters>
+                            cucumber.junit-platform.naming-strategy=long
+                        </configurationParameters>
+                    </properties>
                 </configuration>
                 <dependencies>
                     <dependency>

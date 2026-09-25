@@ -1,11 +1,11 @@
 name: Automation Tests Pipeline
 
 on:
+  workflow_dispatch: {}
   push:
     branches: [ "main", "dev", "rama_integracion", "feature/**" ]
   pull_request:
     branches: [ "main", "dev", "rama_integracion" ]
-
 jobs:
   test:
     runs-on: ubuntu-latest
