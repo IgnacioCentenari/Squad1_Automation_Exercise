@@ -48,13 +48,14 @@ public final class DriverManager {
             }
             case "chrome" -> {
                 ChromeOptions options = new ChromeOptions();
+                options.addArguments("--lang=es-AR");
 
-                // Forzar idioma en español para mensajes HTML5 nativos
-                options.addArguments("--lang=es");
                 Map<String, Object> prefs = new HashMap<>();
-// ... (tus prefs existentes)
                 prefs.put("intl.accept_languages", "es-AR,es");
                 options.setExperimentalOption("prefs", prefs);
+
+                driver = new ChromeDriver(options);
+
                 // Flags requeridos para Linux / GitHub Actions
                 if (headless) {
                     options.addArguments("--headless=new");
